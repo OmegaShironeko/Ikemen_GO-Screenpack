@@ -523,6 +523,14 @@ cell.*-9.spacing = 23, 5
 cell.*-9.scale = 0.46,0.46
 cell.*-9.offset = -73, 0
 
+; If defined draws a sprite or anim from the screenpack on cells using the slot parameter in select.def.
+cell.slot.anim = 159
+;cell.slot.spr = -1, 0
+cell.slot.offset = 0, 0
+cell.slot.facing = 1
+cell.slot.scale = .25,.25
+cell.slot.layerno = 2
+
 ;Main big portraits
 p1.face.anim = 0                   ;Animated portraits
 p1.face.offset = 280, 560          ;Position to place the portrait
@@ -543,6 +551,12 @@ p1.face.loading.offset = 300, 360
 p1.face.loading.facing = 1
 p1.face.loading.scale = 2, 2
 p1.face.loading.layerno = 2
+
+p1.face.slot.anim = 155
+;p1.face.slot.spr = 155, 0
+p1.face.slot.offset = 320, 360
+p1.face.slot.facing = 1
+p1.face.slot.scale = 0.2, 0.2
 	
 p2.face.anim = 0
 p2.face.offset = 1000, 560
@@ -563,6 +577,12 @@ p2.face.loading.offset = 960, 360
 p2.face.loading.facing = 1
 p2.face.loading.scale = 2, 2
 p2.face.loading.layerno = 2
+
+p2.face.slot.anim = 155
+;p1.face.slot.spr = 155, 0
+p2.face.slot.offset = 960, 360
+p2.face.slot.facing = -1
+p2.face.slot.scale = 0.2, 0.2
 
 p1.face.done.anim = 181            ;Portrait to use when selection is confirmed
 p2.face.done.anim = 181
@@ -864,6 +884,34 @@ Interpolate Scale
 151,2, 0,0, 20, , , 0.75
 Interpolate Scale
 151,2, 0,0, 3
+
+[Begin Action 155]
+155,0, 0,0, 2, , S
+155,1, 0,0, 2, , S
+155,2, 0,0, 2, , S
+155,3, 0,0, 2, , S
+155,4, 0,0, 2, , S
+155,5, 0,0, 2, , S
+155,6, 0,0, 2, , S
+155,7, 0,0, 2, , S
+155,8, 0,0, 2, , S
+155,9, 0,0, 2, , S
+155,10, 0,0, 2, , S
+155,11, 0,0, 2, , S
+155,12, 0,0, 2, , S
+155,13, 0,0, 2, , S
+155,14, 0,0, 2, , S
+155,15, 0,0, 2, , S
+
+[Begin Action 159]
+159,0, 0,0, 3
+159,1, 0,0, 3
+159,2, 0,0, 3
+159,3, 0,0, 3
+159,4, 0,0, 3
+159,5, 0,0, 3
+159,6, 0,0, 3
+159,7, 0,0, 3
 
 [Begin Action 160] ;P1 active cursor
 160,0, 0,0, 3
