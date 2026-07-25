@@ -552,12 +552,12 @@ p1.face.loading.facing = 1
 p1.face.loading.scale = 2, 2
 p1.face.loading.layerno = 2
 
-p1.face.slot.anim = 155
+p1.face.slot.anim = 156
 ;p1.face.slot.spr = 155, 0
-p1.face.slot.offset = 390, 360
-p1.face.slot.facing = 0
-p1.face.slot.angle = 90
-p1.face.slot.scale = 1, 1
+p1.face.slot.offset = 320, 300
+p1.face.slot.facing = 1
+p1.face.slot.angle = 0
+p1.face.slot.scale = 0.2,0.2
 p1.face.slot.layerno = 2
 	
 p2.face.anim = 0
@@ -580,12 +580,12 @@ p2.face.loading.facing = 1
 p2.face.loading.scale = 1, 1
 p2.face.loading.layerno = 2
 
-p2.face.slot.anim = 155
+p2.face.slot.anim = 156
 ;p2.face.slot.spr = 155, 0
-p2.face.slot.offset = 900, 360
-p2.face.slot.facing = 0
-p2.face.slot.angle = 90
-p2.face.slot.scale = 1, 1
+p2.face.slot.offset = 960, 300
+p2.face.slot.facing = -1
+p2.face.slot.angle = 0
+p2.face.slot.scale = 0.2,0.2
 p2.face.slot.layerno = 2
 
 p1.face.done.anim = 181            ;Portrait to use when selection is confirmed
@@ -893,6 +893,24 @@ Interpolate Scale
 155,0, 0,0, 8
 155,1, 0,0, 8
 155,2, 0,0, 8
+
+[Begin Action 156]
+156,0, 0,0, 3, , S
+156,1, 0,0, 3, , S
+156,2, 0,0, 3, , S
+156,3, 0,0, 3, , S
+156,4, 0,0, 3, , S
+156,5, 0,0, 3, , S
+156,6, 0,0, 3, , S
+156,7, 0,0, 3, , S
+156,8, 0,0, 3, , S
+156,9, 0,0, 3, , S
+156,10, 0,0, 3, , S
+156,11, 0,0, 3, , S
+156,12, 0,0, 3, , S
+156,13, 0,0, 3, , S
+156,14, 0,0, 3, , S
+156,15, 0,0, 3, , S
 
 [Begin Action 158]
 158,0, 0,0, 4, , AS255D0
