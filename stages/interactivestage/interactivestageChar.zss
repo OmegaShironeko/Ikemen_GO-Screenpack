@@ -46,6 +46,86 @@ if pos X < 0 {
 	changeAnim{value: 599}
 }
 
+#The right pillar has a very small chance of spawning Cartucho the cat
+if pos X > 0 
+&& map(BrokenObject) = 0 #only if the pillar is whole
+&& NumExplod(1010) = 0 #no more than one Cartucho
+&& randomRange(1,3000) = 1010 #one chance every 3000
+&& RoundState = 2 #only in active round time
+{
+	explod {
+		ID: 1010;
+		anim: 1003;
+		sprpriority: 9;
+		space: stage;
+		pos: 0,-screenHeight*2;
+		Vel: 0, 2;
+		bindtime: 1;
+		bindid: ID;
+		removetime: -1;
+		ownpal: 1;
+		scale: 1, 1;
+	}
+}
+
+#Now all this code is only run if Cartucho has appeared
+if pos X > 0 && NumExplod(1010) > 0 {
+	#if the Pillar is Destroyed, Cartucho will fly away
+	if map(BrokenObject) = 1 {
+		if explodVar(1010, 0,anim) != 1003 {
+			modifyExplod {
+				ID:1010;
+				Vel: RandomRange(-2,2)*2,-3;
+				accel:0,0.4;
+				anim:1003;
+			}
+		}
+		modifyExplod{
+			ID:1010; 
+			angle: -time*30;
+		}
+	}
+	#if the pillar is whole, Cartucho does his stuff
+ 	if map(BrokenObject) = 0 {
+		#Kitty is falling
+		if explodVar(1010, 0,pos y) + explodVar(1010, 0,vel y) <= -180 {
+			modifyExplod {
+				ID:1010; 
+				angle: -time*20
+			}
+		}
+		#Have him turn towards the ground
+		if explodVar(1010, 0,pos y) + explodVar(1010, 0,vel y) = -140 {
+			modifyExplod{ID:1010; angle: 0;}
+		}
+		#Kitty lands
+		if explodVar(1010, 0,pos y) + explodVar(1010, 0,vel y) >= -130 && explodVar(1010, 0,vel y) > 0 {
+			modifyExplod{ID:1010; Vel: 0,0;anim:1004;}
+		}
+		#Kitty goes Idle after an anim is over
+		if (explodVar(1010, 0,anim) = 1004 && explodVar(1010, 0,animElem) = 8) #after landing
+		|| (explodVar(1010, 0,anim) = 1005 && explodVar(1010, 0,animElem) = 12) #after kneading
+		|| (explodVar(1010, 0,anim) = 1006 && explodVar(1010, 0,animElem) = 7) { #after looking around
+			modifyExplod{ID:1010; Vel: 0,0;anim:1007;}
+		}
+		#This checks if someone has fallen
+		for i = 1 ; 8; 1 {
+			if playerNoExist($i) {
+				if player($i),stateNo = [5080,5120]{Map(SomeoneHasFallen):=1;}
+			}
+		}
+		#Kitty kneads when someone has fallen or EnvShake is triggered
+		if explodVar(1010, 0,anim) = 1007 && (EnvShakeVar(time) > 1 || Map( SomeoneHasFallen) = 1) {
+			Map(SomeoneHasFallen):=0;
+			modifyExplod{ID:1010; Vel: 0,0;anim:1005;}
+		}
+		#Kitty looks around randomly if he's idle
+		if explodVar(1010, 0,anim) = 1007 && RandomRange(1,1000) = 10 {
+			modifyExplod{ID:1010; Vel: 0,0;anim:1006;}
+		}
+	}  
+}
+
 # These two define the right pillar collision size
 map(WidthDetect) := 30 * stageVar(StageInfo.XScale);
 map(HeightDetect) := 180 * stageVar(StageInfo.YScale);
@@ -107,12 +187,12 @@ if map(BrokenObject) = 0 && roundState > 1 {
 				# Let's throw some debris
 				for j = 1 ; randomRange(30, 40) {
 					explod{
-						ID: 600 + NumExplod;
+						ID: 600;
 						anim: 600 + randomRange(0, 5);
 						sprpriority: 9;
 						space: stage;
 						pos: facing*30, -map(HeightDetect)/2;
-						Vel: randomRange(-4, 4), randomRange(-7, -3);
+						vel: randomRange(-4, 4), randomRange(-7, -3);
 						accel: 0, 0.3;
 						bindtime: 1;
 						bindid: ID;
@@ -131,15 +211,15 @@ if map(BrokenObject) = 0 && roundState > 1 {
 }
 
 # We don't want the debris going under the floor, but bouncing on it.
-if numExplod > 0 {
-	for t = 1; numExplod-1 {
-		if abs(explodVar(600+$t, 0, vel y)) > 2.5 {
-			modifyExplod{ID: 600+$t; angle: explodVar(600+$t, 0,angle) + (3*sign(603-explodVar(600+$t, 0,anim)))}
+if numExplod(600) > 0 {
+	for t = 0; numExplod(600)-1 {
+		if abs(explodVar(600, $t, vel y)) > 2.5 {
+			modifyExplod{ID:600; index:$t; angle: explodVar(600, $t,angle) + (3*sign(603-explodVar(600, $t,anim)))}
 		}
 		
-		if explodVar(600+$t, 0,pos y) + explodVar(600+$t, 0,vel y) >= 0
-		&& explodVar(600+$t, 0,vel y) > 0.2 {
-			modifyExplod{ID: 600+$t; vel: explodVar(600+$t, 0,vel x) * 0.8, explodVar(600+$t, 0,vel y) * -0.5}
+		if explodVar(600, $t,pos y) + explodVar(600, $t,vel y) >= 0
+		&& explodVar(600, $t,vel y) > 0.2 {
+			modifyExplod{ID:600; index:$t; vel: explodVar(600, $t,vel x) * 0.8, explodVar(600, $t,vel y) * -0.5}
 		}
 	}
 }
@@ -153,8 +233,8 @@ if map(BrokenObject) = 1 && map(SlowDownTime) > 0 {
 # Resetting the objects on load, but condition it to ResetBG!
 if roundState = 0 && stageVar(StageInfo.ResetBG) = 1 {
 	map(SlowDownTime) := stageConst(SlowDown);
-
 	map(BrokenObject) := 0;
+	
 	# We check the proper side, and use stageBGVar to see if it was broken!
 	if pos x < 0 && stageBGVar(101, 0, actionno) != 0 {
 		# We shrink the stage via modifyStageVar

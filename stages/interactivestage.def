@@ -114,7 +114,7 @@ resetBG = 1
 localCoord = 320, 240
 
 ; Scale of the stage portrait in the select screen
-portraitScale = 0.5
+portraitScale = 1.0
 
 ;  Horizontal and vertical scaling factor for drawing.
 xScale = 1
